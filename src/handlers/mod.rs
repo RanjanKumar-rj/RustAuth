@@ -3,12 +3,11 @@ use argon2::{
     password_hash::{PasswordHasher, SaltString},
 };
 use axum::{Extension, Json, extract::Request, http::StatusCode};
-use headers::Authorization;
 use headers::authorization::Bearer;
+use headers::{Authorization, HeaderMapExt};
 use rand::rngs::OsRng;
 use sqlx::PgPool;
 use uuid::Uuid;
-use headers::HeaderMapExt;
 
 use crate::auth::{Claims, create_jwt, verify_jwt};
 use crate::models::{SigninRequest, SignupRequest, TokenResponse};
