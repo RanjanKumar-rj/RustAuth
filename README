@@ -1,0 +1,25 @@
+Axum-based authentication project :
+
+Built an authentication microservice in Rust using the Axum web framework. 
+It supports user signup with hashed passwords, login with secure password verification, 
+and JWT-based session management. The service integrates with a PostgreSQL database 
+and uses industry-standard security practices like Argon2 for hashing and JWTs for stateless authentication.
+------------------------------------------------------------------------------------------------------------------------
+curl http://127.0.0.1:3000/
+
+curl -X POST http://localhost:3000/signup \
+  -H "Content-Type: application/json" \
+  -d '{"username": "john", "password": "secret123"}'
+
+curl -X POST http://localhost:3000/signin \
+  -H "Content-Type: application/json" \
+  -d '{"username": "john", "password": "secret123"}'
+
+curl -H "Authorization: Bearer <your_jwt_token>" http://localhost:3000/validate
+Replace <your_jwt_token> with the actual JWT token you received during sign-in.
+
+------------------------------------------------------------------------------------------------------------------------
+psql -U ranjan -d mydb -h localhost
+
+PGPASSWORD=password psql -U ranjan -d mydb -h localhost
+------------------------------------------------------------------------------------------------------------------------

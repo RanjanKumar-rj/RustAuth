@@ -1,6 +1,0 @@
-curl http://127.0.0.1:3000/
-
-curl http://127.0.0.1:3000/hello/Ranjan
-
-curl -X POST http://127.0.0.1:3000/echo -H "Content-Type: application/json" -d '{"message":"Hello"}'
-

@@ -1,43 +1,30 @@
 use axum::{
-    Json, Router,
-    extract::Path,
+    Extension, Router,
     routing::{get, post},
 };
-use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
 
+mod auth;
+mod db;
+mod handlers;
+mod models;
+
+use db::connect_to_db;
+use handlers::{signin, signup, validate_token};
+
 #[tokio::main]
 async fn main() {
-    // Define your app
-    let app = Router::new()
-        .route("/", get(root))
-        .route("/echo", post(echo))
-        .route("/hello/:name", get(hello));
+    dotenvy::dotenv().ok();
+    let pool = connect_to_db().await;
 
-    // Bind to an address using TcpListener
+    let app = Router::new()
+        .route("/signup", post(signup))
+        .route("/signin", post(signin))
+        .route("/validate", get(validate_token))
+        .layer(Extension(pool)); // Pass DB pool
+
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     let listener = TcpListener::bind(addr).await.unwrap();
-
-    // Use axum::serve with the listener
     axum::serve(listener, app).await.unwrap();
-}
-
-async fn root() -> &'static str {
-    "Welcome to Axum!"
-}
-
-#[derive(Deserialize, Serialize)]
-struct EchoData {
-    message: String,
-}
-
-async fn echo(Json(payload): Json<EchoData>) -> Json<EchoData> {
-    Json(EchoData {
-        message: format!("Echo: {}", payload.message),
-    })
-}
-
-async fn hello(Path(name): Path<String>) -> String {
-    format!("Hello, {}!", name)
 }
