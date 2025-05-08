@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------------------------------------------
+curl http://127.0.0.1:3000/
+
+curl -X POST http://localhost:3000/signup \
+  -H "Content-Type: application/json" \
+  -d '{"username": "john", "password": "secret123"}'
+
+curl -X POST http://localhost:3000/signin \
+  -H "Content-Type: application/json" \
+  -d '{"username": "john", "password": "secret123"}'
+
+curl -H "Authorization: Bearer <your_jwt_token>" http://localhost:3000/validate
+Replace <your_jwt_token> with the actual JWT token you received during sign-in.
+
+-------------------------------------------------------------------------------------------------------------------
+psql -U ranjan -d mydb -h localhost
+
+PGPASSWORD=password psql -U ranjan -d mydb -h localhost
+-------------------------------------------------------------------------------------------------------------------

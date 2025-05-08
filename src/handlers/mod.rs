@@ -2,14 +2,12 @@ use argon2::{
     Argon2, PasswordHash, PasswordVerifier,
     password_hash::{PasswordHasher, SaltString},
 };
-// use axum::headers::{Authorization, Bearer};
 use axum::{Extension, Json, extract::Request, http::StatusCode};
 use headers::Authorization;
 use headers::authorization::Bearer;
 use rand::rngs::OsRng;
 use sqlx::PgPool;
 use uuid::Uuid;
-// use axum::http::Request;
 use headers::HeaderMapExt;
 
 use crate::auth::{Claims, create_jwt, verify_jwt};
